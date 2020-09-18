@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Demo class
+ *
+ * @author lcz
+ * @date 2020/10/31
+ */
 @Repository
 public interface OrderingManageMapper {
 
@@ -23,10 +29,10 @@ public interface OrderingManageMapper {
             "where is_del = 0 " +
             "<if test='user != null and user.length() != 0 '>and user = #{user} </if>" +
             "<if test='type != null and type.length() != 0 '>and type = #{type} </if>" +
-            "<if test='eat_time != null and eat_time.length() != 0 '>and eat_time = #{eat_time} </if>" +
-            "order by eat_time,type " +
+            "<if test='eatTime != null and eatTime.length() != 0 '>and eat_time = #{eatTime} </if>" +
+            "order by eatTime,type " +
             "</script>"})
-    int SelectCountOrderingDateType(@Param("type") String type, @Param("eat_time") String eat_time, @Param("user") String user);
+    int selectCountOrderingDateType(@Param("type") String type, @Param("eatTime") String eatTime, @Param("user") String user);
 
     /**
      * @return {{@link HashMap}}
@@ -39,10 +45,10 @@ public interface OrderingManageMapper {
             "where is_del = 0 " +
             "<if test='user != null and user.length() != 0 '>and user = #{user} </if>" +
             "<if test='type != null and type.length() != 0 '>and type = #{type} </if>" +
-            "<if test='eat_time != null and eat_time.length() != 0 '>and eat_time = #{eat_time} </if>" +
-            "order by eat_time,type " +
+            "<if test='eatTime != null and eatTime.length() != 0 '>and eat_time = #{eatTime} </if>" +
+            "order by eatTime,type " +
             "</script>"})
-    List<HashMap> SelectOrderingData(@Param("type") String type, @Param("eat_time") String eat_time, @Param("user") String user);
+    List<HashMap> selectOrderingData(@Param("type") String type, @Param("eatTime") String eatTime, @Param("user") String user);
 
     /**
      * @return {{@link HashMap}}
@@ -51,7 +57,7 @@ public interface OrderingManageMapper {
      * @date 2020/5/26 14:39
      */
     @Select({"select * from b_ordering where is_del = 0 and id = #{id} "})
-    HashMap SelectOrderingById(@Param("id") String id);
+    HashMap selectOrderingById(@Param("id") String id);
 
     /**
      * @return {{@link Integer} 1为插入成功}
@@ -59,8 +65,8 @@ public interface OrderingManageMapper {
      * @author lcz
      * @date 2020/5/26 14:39
      */
-    @Insert({"insert into b_ordering (type,user,eat_time,create_by,remarks) values (#{type},#{user},#{eat_time},#{create_by},#{remarks}) "})
-    Integer InsertOrdering(@Param("type") String type, @Param("user") String user, @Param("eat_time") String eat_time, @Param("create_by") String create_by, @Param("remarks") String remarks);
+    @Insert({"insert into b_ordering (type,user,eat_time,create_by,remarks) values (#{type},#{user},#{eatTime},#{createBy},#{remarks}) "})
+    Integer insertOrdering(@Param("type") String type, @Param("user") String user, @Param("eatTime") String eatTime, @Param("createBy") String createBy, @Param("remarks") String remarks);
 
 
     /**
@@ -73,12 +79,12 @@ public interface OrderingManageMapper {
             "update b_ordering set is_del = 0" +
             "<if test='type != null and type.length() != 0 '>,type = #{type}</if>" +
             "<if test='user != null and user.length() != 0 '>,user = #{user}</if>" +
-            "<if test='eat_time != null and eat_time.length() != 0 '>,eat_time = #{eat_time}</if>" +
+            "<if test='eatTime != null and eatTime.length() != 0 '>,eat_time = #{eatTime}</if>" +
             "<if test='remarks != null and remarks.length() != 0 '>,remarks = #{remarks}</if>" +
-            "<if test='modify_by != null and modify_by.length() != 0 '>,modify_by = #{modify_by}</if>" +
+            "<if test='modifyBy != null and modifyBy.length() != 0 '>,modify_by = #{modifyBy}</if>" +
             "where id= #{id} " +
             "</script>"})
-    Integer UpdateOrdering(@Param("id") String id, @Param("type") String type, @Param("user") String user, @Param("eat_time") String eat_time, @Param("modify_by") String modify_by, @Param("remarks") String remarks);
+    Integer updateOrdering(@Param("id") String id, @Param("type") String type, @Param("user") String user, @Param("eatTime") String eatTime, @Param("modifyBy") String modifyBy, @Param("remarks") String remarks);
 
     /**
      * @return {{@link Integer} 1为删除成功}
@@ -87,5 +93,5 @@ public interface OrderingManageMapper {
      * @date 2020/5/26 14:39
      */
     @Update({"update b_ordering set is_del = 1 where id= #{id} "})
-    Integer DeleteOrdering(@Param("id") String id);
+    Integer deleteOrdering(@Param("id") String id);
 }
