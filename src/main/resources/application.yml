@@ -1,0 +1,14 @@
+server:
+  port: 8808
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ordering?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
+    username: root
+    password: root
+#    password: HuaQing@2103
+
+logging:
+  level:
+    com.example.demo: DEBUG
