@@ -24,7 +24,7 @@ public class OrderingController {
      */
     @CrossOrigin
     @RequestMapping(value = "/v1/SelectCountOrderingDateType", method = RequestMethod.POST)
-    public HashMap SelectCountOrderingDateType(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public HashMap selectCountOrderingDateType(@RequestBody HashMap<String, String> jsonString) throws Exception {
         HashMap<String, Object> add_map = new HashMap<String, Object>();
         add_map.put("result_status", true);
         add_map.put("result_msg", "查询成功");
