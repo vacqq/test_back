@@ -63,7 +63,8 @@ public class BackFormatUtils {
         permissions.add(permissions("table", "桌子管理"));
         permissions.add(permissions("user", "用户管理"));
         permissions.add(permissions("support", "超级模块"));
-        if (message == "超级管理员" || message == "admin") {
+
+        if (message.equals("超级管理员") || message.equals("admin")) {
             permissions.add(permissions("SiteManage", "站点管理"));
         }
 
