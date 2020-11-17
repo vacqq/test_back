@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * @author lcz
  * @date 2020/4/23 15:42
- *
  */
 public class DataAnalysisController {
     @Autowired
