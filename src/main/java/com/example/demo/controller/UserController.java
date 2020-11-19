@@ -123,11 +123,10 @@ public class UserController {
 
 
     /**
+     * 删除数据
+     *
      * @param jsonString 前端传入的相关信息------------------------------------------------------------------------------------
      * @return {{@link HashMap}}
-     * @description 删除数据
-     * @author lcz
-     * @date 2020/8/6 15:42
      */
     @CrossOrigin
     @RequestMapping(value = "/api/DeleteUserDetail", method = RequestMethod.POST)
