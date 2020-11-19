@@ -15,8 +15,11 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public User getUserByUserName(String username) {
@@ -29,12 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap SelectUserNumByPassword(HashMap<String, String> jsonString) {
-        return userMapper.SelectUserNumByPassword(jsonString.get("user_name"), jsonString.get("password"));
+    public HashMap selectUserNumByPassword(HashMap<String, String> jsonString) {
+        return userMapper.selectUserNumByPassword(jsonString.get("user_name"), jsonString.get("password"));
     }
 
-    public List<HashMap> SelectUserDetailList(HashMap<String, String> jsonString) {
-        return userMapper.SelectUserDetailList(jsonString.get("username"), jsonString.get("chinese_names"), jsonString.get("place_id"));
+    @Override
+    public List<HashMap> selectUserDetailList(HashMap<String, String> jsonString) {
+        return userMapper.selectUserDetailList(jsonString.get("username"), jsonString.get("chinese_names"), jsonString.get("place_id"));
     }
 
     @Override
@@ -43,28 +47,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap UserDetailByLoginId(HashMap<String, String> jsonString) {
-        return userMapper.UserDetailByLoginId(jsonString.get("id"), jsonString.get("login_id"));
+    public HashMap userDetailByLoginId(HashMap<String, String> jsonString) {
+        return userMapper.userDetailByLoginId(jsonString.get("id"), jsonString.get("login_id"));
     }
 
     @Override
-    public Integer InsertUserDetail(HashMap<String, Object> jsonString) {
-        return userMapper.InsertUserDetail(jsonString.get("place_id"), jsonString.get("pass_word"), jsonString.get("username"), jsonString.get("chinese_names"));
+    public Integer insertUserDetail(HashMap<String, Object> jsonString) {
+        return userMapper.insertUserDetail(jsonString.get("place_id"), jsonString.get("pass_word"), jsonString.get("username"), jsonString.get("chinese_names"));
     }
 
     @Override
-    public Integer UpdateUserDetail(HashMap<String, String> jsonString) {
-        return userMapper.UpdateUserDetail(jsonString.get("id"), jsonString.get("place_id"), jsonString.get("password"), jsonString.get("username"), jsonString.get("chinese_names"));
+    public Integer updateUserDetail(HashMap<String, String> jsonString) {
+        return userMapper.updateUserDetail(jsonString.get("id"), jsonString.get("place_id"), jsonString.get("password"), jsonString.get("username"), jsonString.get("chinese_names"));
     }
 
     @Override
-    public Integer DeleteUserDetail(String id_all) {
-        return userMapper.DeleteUserDetail(id_all);
+    public Integer deleteUserDetail(String idAll) {
+        return userMapper.deleteUserDetail(idAll);
     }
 
     @Override
-    public Integer UserUpdatePassword(HashMap<String, String> jsonString) {
-        return userMapper.UserUpdatePassword(jsonString.get("id"), jsonString.get("modify_by"), jsonString.get("pass_word"), jsonString.get("username"));
+    public Integer userUpdatePassword(HashMap<String, String> jsonString) {
+        return userMapper.userUpdatePassword(jsonString.get("id"), jsonString.get("modify_by"), jsonString.get("pass_word"), jsonString.get("username"));
     }
 
 }

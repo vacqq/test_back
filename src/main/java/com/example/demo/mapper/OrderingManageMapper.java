@@ -19,10 +19,12 @@ import java.util.List;
 public interface OrderingManageMapper {
 
     /**
-     * @return {{@link int}}
-     * @description 查询订餐信息
-     * @author lcz
-     * @date 2020/5/26 14:39
+     * 查询订餐信息
+     *
+     * @param type    类型
+     * @param eatTime 吃饭时间
+     * @param user    用户
+     * @return int
      */
     @Select({"<script>" +
             "select count(*) as num from b_ordering " +
@@ -35,10 +37,12 @@ public interface OrderingManageMapper {
     int selectCountOrderingDateType(@Param("type") String type, @Param("eatTime") String eatTime, @Param("user") String user);
 
     /**
+     * 查询订餐信息
+     *
+     * @param type    类型
+     * @param eatTime 吃饭时间
+     * @param user    用户
      * @return {{@link HashMap}}
-     * @description 查询订餐信息
-     * @author lcz
-     * @date 2020/5/26 14:39
      */
     @Select({"<script>" +
             "select * from b_ordering " +
@@ -51,29 +55,38 @@ public interface OrderingManageMapper {
     List<HashMap> selectOrderingData(@Param("type") String type, @Param("eatTime") String eatTime, @Param("user") String user);
 
     /**
+     * 根据订餐id获取订餐信息
+     *
+     * @param id id
      * @return {{@link HashMap}}
-     * @description 根据订餐id获取订餐信息
-     * @author lcz
-     * @date 2020/5/26 14:39
      */
     @Select({"select * from b_ordering where is_del = 0 and id = #{id} "})
     HashMap selectOrderingById(@Param("id") String id);
 
     /**
+     * 插入订餐信息
+     *
+     * @param type     类型
+     * @param eatTime  吃饭时间
+     * @param user     用户
+     * @param createBy 创建者
+     * @param remarks  备注
      * @return {{@link Integer} 1为插入成功}
-     * @description 插入订餐信息
-     * @author lcz
-     * @date 2020/5/26 14:39
      */
     @Insert({"insert into b_ordering (type,user,eat_time,create_by,remarks) values (#{type},#{user},#{eatTime},#{createBy},#{remarks}) "})
     Integer insertOrdering(@Param("type") String type, @Param("user") String user, @Param("eatTime") String eatTime, @Param("createBy") String createBy, @Param("remarks") String remarks);
 
 
     /**
+     * 更新订餐信息
+     *
+     * @param id       id
+     * @param type     类型
+     * @param eatTime  吃饭时间
+     * @param user     用户
+     * @param modifyBy 修改者
+     * @param remarks  备注
      * @return {{@link Integer} 1为更新成功}
-     * @description 更新订餐信息
-     * @author lcz
-     * @date 2020/5/26 14:39
      */
     @Update({"<script>" +
             "update b_ordering set is_del = 0" +
@@ -87,10 +100,11 @@ public interface OrderingManageMapper {
     Integer updateOrdering(@Param("id") String id, @Param("type") String type, @Param("user") String user, @Param("eatTime") String eatTime, @Param("modifyBy") String modifyBy, @Param("remarks") String remarks);
 
     /**
+     * 删除订餐信息
+     *
+     * @param id id
      * @return {{@link Integer} 1为删除成功}
-     * @description 删除订餐信息
-     * @author lcz
-     * @date 2020/5/26 14:39
+     * @description
      */
     @Update({"update b_ordering set is_del = 1 where id= #{id} "})
     Integer deleteOrdering(@Param("id") String id);

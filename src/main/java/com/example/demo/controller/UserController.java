@@ -11,6 +11,10 @@ import java.util.List;
 
 @Controller
 @RestController
+/**
+ * @author lcz
+ * @date 2020/4/23 15:42
+ */
 public class UserController {
 
     @Autowired
@@ -25,7 +29,7 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/UserLoginCheck", method = RequestMethod.POST)
-    public HashMap UserLoginCheck(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public HashMap userLoginCheck(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return userService.SelectUserNumByPassword(jsonString);
     }
 
@@ -38,7 +42,7 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/UserDetailByLoginId", method = RequestMethod.POST)
-    public HashMap UserDetailByLoginId(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public HashMap userDetailByLoginId(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return userService.UserDetailByLoginId(jsonString);
     }
 
@@ -51,7 +55,7 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectUserDetailList", method = RequestMethod.POST)
-    public List<HashMap> SelectUserDetailList(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectUserDetailList(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return userService.SelectUserDetailList(jsonString);
     }
 
@@ -64,31 +68,34 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/InsertUserDetail", method = RequestMethod.POST)
-    public HashMap InsertUserDetail(@RequestBody HashMap<String, Object> jsonString) throws Exception {
+    public HashMap insertUserDetail(@RequestBody HashMap<String, Object> jsonString) throws Exception {
 
-        String result_data = "0";
-        String result_msg = "插入失败";
+        String resultData = "0";
+        String resultMsg = "插入失败";
         //查看此用户数据库中是否有
-        if (userService.countUserNameIsHave(jsonString.get("username").toString()) == 0) {
+        String userName = jsonString.get("username").toString();
+        if (userService.countUserNameIsHave(userName) == 0) {
             /*************************JM statr*****************************/
             String pwYz = "HBHQKJHJJCGFJTYXGS";
             String salt = pwYz + jsonString.get("password").toString() + pwYz;
-            String hashAlgorithmName = "MD5";//JMFS
-            int hashIterations = 1024;//SL1024次
+            //JMFS
+            String hashAlgorithmName = "MD5";
+            //SL1024次
+            int hashIterations = 1024;
             Object result = new SimpleHash(hashAlgorithmName, pwYz, salt, hashIterations);
             /*************************JM end*****************************/
             jsonString.put("pass_word", result.toString());
             userService.InsertUserDetail(jsonString);
-            result_data = "1";
-            result_msg = "插入成功";
+            resultData = "1";
+            resultMsg = "插入成功";
         } else {
-            result_msg = "此id已被占用请更换用户id";
+            resultMsg = "此id已被占用请更换用户id";
         }
-        HashMap<String, Object> add_map = new HashMap<String, Object>();
-        add_map.put("result_status", true);
-        add_map.put("result_msg", result_msg);
-        add_map.put("result_data", result_data);
-        return add_map;
+        HashMap<String, Object> addMap = new HashMap<String, Object>(10);
+        addMap.put("result_status", true);
+        addMap.put("result_msg", resultMsg);
+        addMap.put("result_data", resultData);
+        return addMap;
     }
 
     /**
@@ -100,18 +107,18 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/UpdateUserDetail", method = RequestMethod.POST)
-    public HashMap UpdateUserDetail(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        Integer result_data = 0;
-        String result_msg = "更新失败";
-        result_data = userService.UpdateUserDetail(jsonString);
-        if (result_data != 0) {
-            result_msg = "更新成功";
+    public HashMap updateUserDetail(@RequestBody HashMap<String, String> jsonString) throws Exception {
+        Integer resultData = 0;
+        String resultMsg = "更新失败";
+        resultData = userService.UpdateUserDetail(jsonString);
+        if (resultData != 0) {
+            resultMsg = "更新成功";
         }
-        HashMap<String, Object> add_map = new HashMap<String, Object>();
-        add_map.put("result_status", true);
-        add_map.put("result_msg", result_msg);
-        add_map.put("result_data", result_data);
-        return add_map;
+        HashMap<String, Object> addMap = new HashMap<String, Object>(10);
+        addMap.put("result_status", true);
+        addMap.put("result_msg", resultMsg);
+        addMap.put("result_data", resultData);
+        return addMap;
     }
 
 
@@ -124,18 +131,18 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/DeleteUserDetail", method = RequestMethod.POST)
-    public HashMap DeleteUserDetail(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        Integer result_data = 0;
-        String result_msg = "删除失败";
-        result_data = userService.DeleteUserDetail(jsonString.get("id_all"));
-        if (result_data != 0) {
-            result_msg = "删除成功";
+    public HashMap deleteUserDetail(@RequestBody HashMap<String, String> jsonString) throws Exception {
+        Integer resultData = 0;
+        String resultMsg = "删除失败";
+        resultData = userService.DeleteUserDetail(jsonString.get("id_all"));
+        if (resultData != 0) {
+            resultMsg = "删除成功";
         }
-        HashMap<String, Object> add_map = new HashMap<String, Object>();
-        add_map.put("result_status", true);
-        add_map.put("result_msg", result_msg);
-        add_map.put("result_data", result_data);
-        return add_map;
+        HashMap<String, Object> addMap = new HashMap<String, Object>(10);
+        addMap.put("result_status", true);
+        addMap.put("result_msg", resultMsg);
+        addMap.put("result_data", resultData);
+        return addMap;
     }
 
     /**
@@ -147,26 +154,28 @@ public class UserController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/UserUpdatePassword", method = RequestMethod.POST)
-    public HashMap UserUpdatePassword(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public HashMap userUpdatePassword(@RequestBody HashMap<String, String> jsonString) throws Exception {
         /*************************JM statr*****************************/
         String pwYz = "HBHQKJHJJCGFJTYXGS";
         String salt = pwYz + jsonString.get("password") + pwYz;
-        String hashAlgorithmName = "MD5";//JMFS
-        int hashIterations = 1024;//SL1024次
+        // JMFS
+        String hashAlgorithmName = "MD5";
+        //SL1024次
+        int hashIterations = 1024;
         Object result = new SimpleHash(hashAlgorithmName, pwYz, salt, hashIterations);
         /*************************JM end*****************************/
         jsonString.put("pass_word", result.toString());
-        Integer result_data = 0;
-        String result_msg = "修改失败";
-        result_data = userService.UserUpdatePassword(jsonString);
-        if (result_data != 0) {
-            result_msg = "修改成功";
+        Integer resultData = 0;
+        String resultMsg = "修改失败";
+        resultData = userService.UserUpdatePassword(jsonString);
+        if (resultData != 0) {
+            resultMsg = "修改成功";
         }
-        HashMap<String, Object> add_map = new HashMap<String, Object>();
-        add_map.put("result_status", true);
-        add_map.put("result_msg", result_msg);
-        add_map.put("result_data", result_data);
-        return add_map;
+        HashMap<String, Object> addMap = new HashMap<String, Object>(10);
+        addMap.put("result_status", true);
+        addMap.put("result_msg", resultMsg);
+        addMap.put("result_data", resultData);
+        return addMap;
     }
 
 

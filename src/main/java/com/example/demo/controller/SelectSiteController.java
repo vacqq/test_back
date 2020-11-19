@@ -12,6 +12,10 @@ import java.util.List;
 
 @Controller
 @RestController
+/**
+ * @author lcz
+ * @date 2020/9/18
+ */
 public class SelectSiteController {
 
     @Autowired
@@ -26,7 +30,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteIdNameBySiteType", method = RequestMethod.POST)
-    public List<HashMap> SelectSiteIdNameBySiteType(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectSiteIdNameBySiteType(@RequestBody HashMap<String, String> jsonString) throws Exception {
         List<HashMap> hashMapList = selectSiteService.SelectSiteIdNameBySiteType(jsonString);
         return hashMapList;
     }
@@ -40,7 +44,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectHeatMapDataList", method = RequestMethod.POST)
-    public List<HashMap> SelectHeatMapDataList(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectHeatMapDataList(@RequestBody HashMap<String, String> jsonString) throws Exception {
         List<HashMap> hashMapList = selectSiteService.SelectHeatMapDataList(jsonString);
         return hashMapList;
     }
@@ -54,7 +58,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteIdNameBySiteTypeId", method = RequestMethod.POST)
-    public List<HashMap> SelectSiteIdNameBySiteTypeId(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectSiteIdNameBySiteTypeId(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.SelectSiteIdNameBySiteTypeId(jsonString);
     }
 
@@ -67,7 +71,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectDictionariesByType", method = RequestMethod.POST)
-    public List<HashMap> SelectDictionariesByType(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectDictionariesByType(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.SelectDictionariesByType(jsonString);
     }
 
@@ -81,68 +85,68 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/PlaceTreeList", method = RequestMethod.POST)
-    public HashMap PlaceTreeList(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        String place_id = jsonString.get("place_id");//获取默认place_id
-        HashMap<String, Object> place_detail = new HashMap<String, Object>();
-        List<HashMap> place_detail_list = new ArrayList<HashMap>();
-        place_detail.put("place_father_show", selectSiteService.SelectPlaceNameById(place_id));
+    public HashMap placeTreeList(@RequestBody HashMap<String, String> jsonString) throws Exception {
+        //获取默认place_id
+        String placeId = jsonString.get("place_id");
+        HashMap<String, Object> placeDetail = new HashMap<String, Object>(10);
+        List<HashMap> placeDetailList = new ArrayList<HashMap>();
+        placeDetail.put("place_father_show", selectSiteService.SelectPlaceNameById(placeId));
 
-        List<HashMap> childrenXQ = selectSiteService.GetPlaceTreeListQuick(place_id);
-        List<HashMap> childrenDetailList = selectSiteService.GetPlaceTreeListInParentId(place_id);
+        List<HashMap> childrenX = selectSiteService.GetPlaceTreeListQuick(placeId);
+        List<HashMap> childrenDetailList = selectSiteService.GetPlaceTreeListInParentId(placeId);
 
-        for (HashMap strList : childrenXQ) {
-            HashMap<String, Object> children = new HashMap<String, Object>();
+        for (HashMap strList : childrenX) {
+            HashMap<String, Object> children = new HashMap<String, Object>(10);
             children.put("value", strList.get("value"));
             children.put("label", strList.get("label"));
-            children.put("children", GetQuickList(strList.get("value").toString(), childrenDetailList));//递归调用
-            place_detail_list.add(children);
+            //递归调用
+            children.put("children", getQuickList(strList.get("value").toString(), childrenDetailList));
+            placeDetailList.add(children);
         }
-//        place_detail.put("place_detail", GetTreeList(place_id));
-        place_detail.put("place_detail", place_detail_list);
-        return place_detail;
+        placeDetail.put("place_detail", placeDetailList);
+        return placeDetail;
     }
 
-    public List<HashMap> GetQuickList(String parent_id, List<HashMap> childrenDetailList) {
-        List<HashMap> place_detail_list = new ArrayList<HashMap>();
+    public List<HashMap> getQuickList(String parentId, List<HashMap> childrenDetailList) {
+        List<HashMap> placeDetailList = new ArrayList<HashMap>();
         for (HashMap strList : childrenDetailList) {
-            if (strList.get("parent_id").toString().equals(parent_id)) {
-                HashMap<String, Object> children = new HashMap<String, Object>();
+            if (strList.get("parent_id").toString().equals(parentId)) {
+                HashMap<String, Object> children = new HashMap<String, Object>(10);
                 children.put("value", strList.get("value"));
                 children.put("label", strList.get("label"));
-                place_detail_list.add(children);
+                placeDetailList.add(children);
             }
         }
-        return place_detail_list;
+        return placeDetailList;
     }
 
-    public List<HashMap> GetTreeList(String place_id) {
-        List<SysSiteEntity> sysSiteEntities = selectSiteService.GetPlaceTreeList(place_id);
+    public List<HashMap> getTreeList(String placeId) {
+        List<SysSiteEntity> sysSiteEntities = selectSiteService.GetPlaceTreeList(placeId);
         if (sysSiteEntities.size() == 0) {
             return null;
         }
         List<HashMap> children = new ArrayList<HashMap>();
         for (SysSiteEntity strList : sysSiteEntities) {
-            HashMap<String, Object> place_detail = new HashMap<String, Object>();
-            place_detail.put("value", strList.getId());
-            place_detail.put("label", strList.getName());
-            //place_detail.put("children", GetTreeList(String.valueOf(strList.getId())));//递归调用
-            place_detail.put("children", GetTreeChildrenList(String.valueOf(strList.getId())));//普通调用节省查询时间
-            children.add(place_detail);
+            HashMap<String, Object> placeDetail = new HashMap<String, Object>(10);
+            placeDetail.put("value", strList.getId());
+            placeDetail.put("label", strList.getName());
+            placeDetail.put("children", getTreeChildrenList(String.valueOf(strList.getId())));
+            children.add(placeDetail);
         }
         return children;
     }
 
-    public List<HashMap> GetTreeChildrenList(String place_id) {
-        List<SysSiteEntity> sysSiteEntities = selectSiteService.GetPlaceTreeList(place_id);
+    public List<HashMap> getTreeChildrenList(String placeId) {
+        List<SysSiteEntity> sysSiteEntities = selectSiteService.GetPlaceTreeList(placeId);
         if (sysSiteEntities.size() == 0) {
             return null;
         }
         List<HashMap> children = new ArrayList<HashMap>();
         for (SysSiteEntity strList : sysSiteEntities) {
-            HashMap<String, Object> place_detail = new HashMap<String, Object>();
-            place_detail.put("value", strList.getId());
-            place_detail.put("label", strList.getName());
-            children.add(place_detail);
+            HashMap<String, Object> placeDetail = new HashMap<String, Object>(10);
+            placeDetail.put("value", strList.getId());
+            placeDetail.put("label", strList.getName());
+            children.add(placeDetail);
         }
         return children;
     }
@@ -156,7 +160,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteDataById", method = RequestMethod.POST)
-    public HashMap SelectSiteDataById(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public HashMap selectSiteDataById(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.SelectSiteDataById(jsonString.get("id"));
     }
 
@@ -169,7 +173,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectPlaceIdByType", method = RequestMethod.POST)
-    public List<HashMap> SelectPlaceIdByType(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectPlaceIdByType(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.SelectPlaceIdByType(jsonString.get("type"));
     }
 
@@ -182,7 +186,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteList", method = RequestMethod.POST)
-    public List<HashMap> SelectSiteList(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> selectSiteList(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.SelectSiteList(jsonString);
     }
 
@@ -224,23 +228,24 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/InsertSiteData", method = RequestMethod.POST)
-    public HashMap InsertSiteData(@RequestBody HashMap<String, Object> jsonString) throws Exception {
+    public HashMap insertSiteData(@RequestBody HashMap<String, Object> jsonString) throws Exception {
 
-        String result_data = "0";
-        String result_msg = "插入失败";
+        String resultData = "0";
+        String resultMsg = "插入失败";
+        String name = jsonString.get("name").toString();
         //对是否重复插入做出判断
-        if (selectSiteService.countSiteNameIsHave(jsonString.get("name").toString()) == 0) {
+        if (selectSiteService.countSiteNameIsHave(name) == 0) {
             selectSiteService.InsertSiteData(jsonString);
-            result_data = "1";
-            result_msg = "插入成功";
+            resultData = "1";
+            resultMsg = "插入成功";
         } else {
-            result_msg = "此站点名已存在，请更换站点名";
+            resultMsg = "此站点名已存在，请更换站点名";
         }
-        HashMap<String, Object> add_map = new HashMap<String, Object>();
-        add_map.put("result_status", true);
-        add_map.put("result_msg", result_msg);
-        add_map.put("result_data", result_data);
-        return add_map;
+        HashMap<String, Object> addMap = new HashMap<String, Object>(10);
+        addMap.put("result_status", true);
+        addMap.put("result_msg", resultMsg);
+        addMap.put("result_data", resultData);
+        return addMap;
     }
 
     /**
@@ -252,18 +257,18 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/UpdateSiteData", method = RequestMethod.POST)
-    public HashMap UpdateSiteData(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        Integer result_data = 0;
-        String result_msg = "更新失败";
-        result_data = selectSiteService.UpdateSiteData(jsonString);
-        if (result_data != 0) {
-            result_msg = "更新成功";
+    public HashMap updateSiteData(@RequestBody HashMap<String, String> jsonString) throws Exception {
+        Integer resultData = 0;
+        String resultMsg = "更新失败";
+        resultData = selectSiteService.UpdateSiteData(jsonString);
+        if (resultData != 0) {
+            resultMsg = "更新成功";
         }
-        HashMap<String, Object> add_map = new HashMap<String, Object>();
-        add_map.put("result_status", true);
-        add_map.put("result_msg", result_msg);
-        add_map.put("result_data", result_data);
-        return add_map;
+        HashMap<String, Object> addMap = new HashMap<String, Object>(10);
+        addMap.put("result_status", true);
+        addMap.put("result_msg", resultMsg);
+        addMap.put("result_data", resultData);
+        return addMap;
     }
 
 
@@ -276,7 +281,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/DeleteSiteData", method = RequestMethod.POST)
-    public Integer DeleteSiteData(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public Integer deleteSiteData(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.DeleteSiteData(jsonString.get("id_all"));
     }
 
@@ -290,7 +295,7 @@ public class SelectSiteController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/GetSiteDataByPlaceId", method = RequestMethod.POST)
-    public List<HashMap> GetSiteDataByPlaceId(@RequestBody HashMap<String, String> jsonString) throws Exception {
+    public List<HashMap> getSiteDataByPlaceId(@RequestBody HashMap<String, String> jsonString) throws Exception {
         return selectSiteService.GetSiteDataByPlaceId(jsonString.get("site_type"), jsonString.get("place_id"));
     }
 

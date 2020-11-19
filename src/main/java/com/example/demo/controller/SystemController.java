@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.baseBeanUtIls.BackFormatUtils;
+import com.example.demo.base.bean.utils.BackFormatUtils;
 import com.example.demo.bean.User;
 import com.example.demo.service.UserService;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -69,7 +69,7 @@ public class SystemController {
             map.put("message", "账户或密码错误");
             map.put("data", "no");
         }
-        return BackFormatUtils.Builder(map.get("data"), map.get("message"), map.get("code"), map.get("token"));
+        return BackFormatUtils.builder(map.get("data"), map.get("message"), map.get("code"), map.get("token"));
     }
 
 

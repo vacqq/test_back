@@ -10,73 +10,97 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+/**
+ * @author lcz
+ * @date 2020/4/23 15:42
+ */
 public class SelectSiteServiceImpl implements SelectSiteService {
-    @Autowired
+    final
     SelectSiteMapper selectSiteMapper;
 
-    public String SelectNameById(String Id) {
-        return selectSiteMapper.SelectNameById(Id);
+    public SelectSiteServiceImpl(SelectSiteMapper selectSiteMapper) {
+        this.selectSiteMapper = selectSiteMapper;
     }
 
-    public HashMap SelectSiteDataById(String Id) {
-        return selectSiteMapper.SelectSiteDataById(Id);
+    @Override
+    public String selectNameById(String id) {
+        return selectSiteMapper.selectNameById(id);
     }
 
-    public String SelectPlaceNameById(String Id) {
-        return selectSiteMapper.SelectPlaceNameById(Id);
+    @Override
+    public HashMap selectSiteDataById(String id) {
+        return selectSiteMapper.selectSiteDataById(id);
     }
 
-    public String SelectIdByName(String name) {
-        return selectSiteMapper.SelectIdByName(name);
+    @Override
+    public String selectPlaceNameById(String id) {
+        return selectSiteMapper.selectPlaceNameById(id);
     }
 
-    public List<SysSiteEntity> SelectNameInId(String IdRange) {
-        return selectSiteMapper.SelectNameInId(IdRange);
+    @Override
+    public String selectIdByName(String name) {
+        return selectSiteMapper.selectIdByName(name);
     }
 
-    public List<HashMap> SelectSiteIdNameBySiteType(HashMap<String, String> jsonString) {
-        return selectSiteMapper.SelectSiteIdNameBySiteType(jsonString.get("site_type"), jsonString.get("place_id"), jsonString.get("air_type"), jsonString.get("start_time"), jsonString.get("end_time"));
+    @Override
+    public List<SysSiteEntity> selectNameInId(String idRange) {
+        return selectSiteMapper.selectNameInId(idRange);
     }
 
-    public List<HashMap> SelectSiteIdNameBySiteTypeId(HashMap<String, String> jsonString) {
-        return selectSiteMapper.SelectSiteIdNameBySiteTypeId(jsonString.get("site_type"), jsonString.get("place_id"));
+    @Override
+    public List<HashMap> selectSiteIdNameBySiteType(HashMap<String, String> jsonString) {
+        return selectSiteMapper.selectSiteIdNameBySiteType(jsonString.get("site_type"), jsonString.get("place_id"), jsonString.get("air_type"), jsonString.get("start_time"), jsonString.get("end_time"));
     }
 
-    public List<HashMap> SelectHeatMapDataList(HashMap<String, String> jsonString) {
-        return selectSiteMapper.SelectHeatMapDataList(jsonString.get("site_type"), jsonString.get("place_id"), jsonString.get("air_type"), jsonString.get("start_time"), jsonString.get("end_time"));
+    @Override
+    public List<HashMap> selectSiteIdNameBySiteTypeId(HashMap<String, String> jsonString) {
+        return selectSiteMapper.selectSiteIdNameBySiteTypeId(jsonString.get("site_type"), jsonString.get("place_id"));
     }
 
-    public List<HashMap> SelectDictionariesByType(HashMap<String, String> jsonString) {
-        return selectSiteMapper.SelectDictionariesByType(jsonString.get("type"));
+    @Override
+    public List<HashMap> selectHeatMapDataList(HashMap<String, String> jsonString) {
+        return selectSiteMapper.selectHeatMapDataList(jsonString.get("site_type"), jsonString.get("place_id"), jsonString.get("air_type"), jsonString.get("start_time"), jsonString.get("end_time"));
     }
 
-    public List<SysSiteEntity> GetPlaceTreeList(String place_id) {
-        return selectSiteMapper.GetPlaceTreeList(place_id);
+    @Override
+    public List<HashMap> selectDictionariesByType(HashMap<String, String> jsonString) {
+        return selectSiteMapper.selectDictionariesByType(jsonString.get("type"));
     }
 
-    public List<HashMap> GetPlaceTreeListQuick(String place_id) {
-        return selectSiteMapper.GetPlaceTreeListQuick(place_id);
+    @Override
+    public List<SysSiteEntity> getPlaceTreeList(String placeId) {
+        return selectSiteMapper.getPlaceTreeList(placeId);
     }
 
-    public List<HashMap> GetPlaceTreeListInParentId(String place_id) {
-        return selectSiteMapper.GetPlaceTreeListInParentId(place_id);
+    @Override
+    public List<HashMap> getPlaceTreeListQuick(String placeId) {
+        return selectSiteMapper.getPlaceTreeListQuick(placeId);
     }
 
-    public List<HashMap> SelectPlaceIdByType(String type) {
-        return selectSiteMapper.SelectPlaceIdByType(type);
+    @Override
+    public List<HashMap> getPlaceTreeListInParentId(String placeId) {
+        return selectSiteMapper.getPlaceTreeListInParentId(placeId);
     }
 
-    public List<HashMap> SelectSiteList(HashMap<String, String> jsonString) {
-        return selectSiteMapper.SelectSiteList(jsonString.get("site_type"), jsonString.get("place_id"), jsonString.get("lat"), jsonString.get("lng"), jsonString.get("site_name"));
+    @Override
+    public List<HashMap> selectPlaceIdByType(String type) {
+        return selectSiteMapper.selectPlaceIdByType(type);
     }
 
+    @Override
+    public List<HashMap> selectSiteList(HashMap<String, String> jsonString) {
+        return selectSiteMapper.selectSiteList(jsonString.get("site_type"), jsonString.get("place_id"), jsonString.get("lat"), jsonString.get("lng"), jsonString.get("site_name"));
+    }
+
+    @Override
     public List<HashMap> getDateBySiteId(HashMap<String, String> jsonString) {
         List<HashMap> hashMapList = selectSiteMapper.getDateBySiteId(jsonString.get("site_id"),
                 jsonString.get("data_type"), jsonString.get("start_time"), jsonString.get("end_time"));
         return hashMapList;
     }
 
-    public HashMap getLastSiteDataBySiteid(HashMap<String, String> jsonString) {
+    @Override
+    public HashMap getLastSiteDataBySiteId(HashMap<String, String> jsonString) {
         return selectSiteMapper.getLastSiteDataBySiteid(jsonString.get("site_id"));
     }
 
@@ -87,24 +111,24 @@ public class SelectSiteServiceImpl implements SelectSiteService {
     }
 
     @Override
-    public Integer InsertSiteData(HashMap<String, Object> jsonString) {
-        return selectSiteMapper.InsertSiteData(jsonString.get("place_id"), jsonString.get("site_type"), jsonString.get("name"), jsonString.get("only_name"), jsonString.get("lng"), jsonString.get("lat"), jsonString.get("position"));
+    public Integer insertSiteData(HashMap<String, Object> jsonString) {
+        return selectSiteMapper.insertSiteData(jsonString.get("place_id"), jsonString.get("site_type"), jsonString.get("name"), jsonString.get("only_name"), jsonString.get("lng"), jsonString.get("lat"), jsonString.get("position"));
     }
 
     @Override
-    public Integer UpdateSiteData(HashMap<String, String> jsonString) {
-        return selectSiteMapper.UpdateSiteData(jsonString.get("id"), jsonString.get("place_id"), jsonString.get("site_type"), jsonString.get("name"), jsonString.get("only_name"), jsonString.get("lng"), jsonString.get("lat"), jsonString.get("position"), jsonString.get("modify_by"));
+    public Integer updateSiteData(HashMap<String, String> jsonString) {
+        return selectSiteMapper.updateSiteData(jsonString.get("id"), jsonString.get("place_id"), jsonString.get("site_type"), jsonString.get("name"), jsonString.get("only_name"), jsonString.get("lng"), jsonString.get("lat"), jsonString.get("position"), jsonString.get("modify_by"));
     }
 
     @Override
-    public Integer DeleteSiteData(String id_all) {
-        return selectSiteMapper.DeleteSiteData(id_all);
+    public Integer deleteSiteData(String idAll) {
+        return selectSiteMapper.deleteSiteData(idAll);
     }
 
 
     @Override
-    public List<HashMap> GetSiteDataByPlaceId(String site_type, String place_id) {
-        return selectSiteMapper.GetSiteDataByPlaceId(site_type, place_id);
+    public List<HashMap> getSiteDataByPlaceId(String siteType, String placeId) {
+        return selectSiteMapper.getSiteDataByPlaceId(siteType, placeId);
     }
 
 }

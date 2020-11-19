@@ -10,48 +10,48 @@ public interface OrderingManageService {
     /**
      * 查询订餐日期类型
      *
-     * @param jsonString rule id
+     * @param jsonString 前台传值的json
      * @return List<HashMap>
      */
-    public int selectCountOrderingDateType(HashMap<String, String> jsonString);
+    int selectCountOrderingDateType(HashMap<String, String> jsonString);
 
     /**
      * fetch data by rule id
      *
-     * @param jsonString rule id
+     * @param jsonString 前台传值的json
      * @return List<HashMap>
      */
-    public List<HashMap> selectOrderingData(HashMap<String, String> jsonString);
+    List<HashMap> selectOrderingData(HashMap<String, String> jsonString);
 
     /**
      * 查询订餐日期
      *
-     * @param jsonString rule id
+     * @param jsonString 前台传值的json
      * @return List<HashMap>
      */
-    public HashMap selectOrderingById(HashMap<String, String> jsonString);
+    HashMap selectOrderingById(HashMap<String, String> jsonString);
 
     /**
      * 查询订餐日期
      *
-     * @param jsonString rule id
+     * @param jsonString 前台传值的json
      * @return List<HashMap>
      */
-    public Integer insertOrdering(HashMap<String, String> jsonString);
+    Integer insertOrdering(HashMap<String, String> jsonString);
 
     /**
      * 查询订餐日期
      *
-     * @param jsonString rule id
+     * @param jsonString 前台传值的json
      * @return List<HashMap>
      */
-    public Integer updateOrdering(HashMap<String, String> jsonString);
+    Integer updateOrdering(HashMap<String, String> jsonString);
 
     /**
      * 查询订餐日期
      *
-     * @param jsonString rule id
+     * @param jsonString 前台传值的json
      * @return List<HashMap>
      */
-    public Integer deleteOrdering(HashMap<String, String> jsonString);
+    Integer deleteOrdering(HashMap<String, String> jsonString);
 }

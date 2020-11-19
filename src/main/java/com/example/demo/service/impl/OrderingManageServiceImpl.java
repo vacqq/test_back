@@ -17,8 +17,12 @@ import java.util.List;
 @Service
 public class OrderingManageServiceImpl implements OrderingManageService {
 
-    @Autowired
+    final
     OrderingManageMapper orderingManageMapper;
+
+    public OrderingManageServiceImpl(OrderingManageMapper orderingManageMapper) {
+        this.orderingManageMapper = orderingManageMapper;
+    }
 
 
     @Override

@@ -8,20 +8,31 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author lcz
+ * @date 2020/4/23 15:42
+ */
 @Service
 public class AnalysisSiteRelevanceServiceImpl implements AnalysisSiteRelevanceService {
-    @Autowired
+    final
     AnalysisSiteRelevanceMapper analysisSiteRelevanceMapper;
 
-    public List<HashMap> SelectData(HashMap<String, String> jsonString, String date_time) {
-        return analysisSiteRelevanceMapper.SelectData(jsonString.get("type"), jsonString.get("site_type"), jsonString.get("decimal_num"), date_time, jsonString.get("site_id"));
+    public AnalysisSiteRelevanceServiceImpl(AnalysisSiteRelevanceMapper analysisSiteRelevanceMapper) {
+        this.analysisSiteRelevanceMapper = analysisSiteRelevanceMapper;
     }
 
-    public List<HashMap> SelectDataSiteRange(HashMap<String, String> jsonString, String date_time) {
-        return analysisSiteRelevanceMapper.SelectDataSiteRange(jsonString.get("type"), jsonString.get("site_type"), jsonString.get("decimal_num"), date_time, jsonString.get("site_id_range"));
+    @Override
+    public List<HashMap> selectData(HashMap<String, String> jsonString, String dateTime) {
+        return analysisSiteRelevanceMapper.selectData(jsonString.get("type"), jsonString.get("site_type"), jsonString.get("decimal_num"), dateTime, jsonString.get("site_id"));
     }
 
-    public List<HashMap> SelectDateTime(HashMap<String, String> jsonString) {
-        return analysisSiteRelevanceMapper.SelectDateTime(jsonString.get("start_time"), jsonString.get("end_time"));
+    @Override
+    public List<HashMap> selectDataSiteRange(HashMap<String, String> jsonString, String dateTime) {
+        return analysisSiteRelevanceMapper.selectDataSiteRange(jsonString.get("type"), jsonString.get("site_type"), jsonString.get("decimal_num"), dateTime, jsonString.get("site_id_range"));
+    }
+
+    @Override
+    public List<HashMap> selectDateTime(HashMap<String, String> jsonString) {
+        return analysisSiteRelevanceMapper.selectDateTime(jsonString.get("start_time"), jsonString.get("end_time"));
     }
 }

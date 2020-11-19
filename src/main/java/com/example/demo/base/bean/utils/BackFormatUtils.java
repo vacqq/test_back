@@ -1,13 +1,18 @@
-package com.example.demo.baseBeanUtIls;
+package com.example.demo.base.bean.utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
+/**
+ * @author lcz
+ * @date 2020/4/23 15:42
+ */
 public class BackFormatUtils {
-    //需要static静态否则调用不到.
-    public static HashMap Builder(Object result, Object message, Object code, Object headers) {
+
+    /**
+     * 需要static静态否则调用不到.
+     */
+    public static HashMap builder(Object result, Object message, Object code, Object headers) {
         HashMap<String, Object> builder = new HashMap<String, Object>(10);
         builder.put("result", result);
         builder.put("message", message);
@@ -19,17 +24,19 @@ public class BackFormatUtils {
         return builder;
     }
 
-    //获取用户js信息
-    public static HashMap getUserDetail(String message, String chinese_names, String place_id) {
-        HashMap<String, Object> result = new HashMap<String, Object>();
-        HashMap<String, Object> builder = new HashMap<String, Object>();
-        HashMap<String, Object> Role = new HashMap<String, Object>();
+    /**
+     * 获取用户js信息
+     */
+    public static HashMap getUserDetail(String message, String chineseNames, String placeId) {
+        HashMap<String, Object> result = new HashMap<String, Object>(20);
+        HashMap<String, Object> builder = new HashMap<String, Object>(20);
+        HashMap<String, Object> role = new HashMap<String, Object>(20);
         //插入用户信息
         builder.put("id", "4291d7da9005377ec9aec4a71ea837f");
-        builder.put("name", chinese_names);
+        builder.put("name", chineseNames);
         builder.put("username", message);
         builder.put("password", "");
-        builder.put("place_id", place_id);
+        builder.put("place_id", placeId);
         builder.put("avatar", "/avatar2.jpg");
         builder.put("status", 1);
         builder.put("telephone", "");
@@ -41,12 +48,12 @@ public class BackFormatUtils {
         builder.put("deleted", 0);
         builder.put("roleId", "admin");
         //插入权限信息
-        Role.put("name", "管理员");
-        Role.put("describe", "拥有所有权限");
-        Role.put("status", 1);
-        Role.put("creatorId", "system");
-        Role.put("createTime", "1497160610259");
-        Role.put("deleted", 0);
+        role.put("name", "管理员");
+        role.put("describe", "拥有所有权限");
+        role.put("status", 1);
+        role.put("creatorId", "system");
+        role.put("createTime", "1497160610259");
+        role.put("deleted", 0);
 
         //存放权限字典集合
         List<HashMap> permissions = new ArrayList<HashMap>();
@@ -63,18 +70,20 @@ public class BackFormatUtils {
         permissions.add(permissions("table", "桌子管理"));
         permissions.add(permissions("user", "用户管理"));
         permissions.add(permissions("support", "超级模块"));
-
-        if (message.equals("超级管理员") || message.equals("admin")) {
+        String adminName1 = "超级管理员";
+        String adminName2 = "admin";
+        if (adminName1.equals(message) || adminName2.equals(message)) {
             permissions.add(permissions("SiteManage", "站点管理"));
         }
 
-        Role.put("permissions", permissions);
-        builder.put("role", Role);
+        role.put("permissions", permissions);
+        builder.put("role", role);
         //返回最终数据
         result.put("result", builder);
         result.put("message", "");
         result.put("code", 0);
-        result.put("timestamp", System.currentTimeMillis());//获取当前时间戳
+        //获取当前时间戳
+        result.put("timestamp", System.currentTimeMillis());
         return result;
     }
 
@@ -84,13 +93,13 @@ public class BackFormatUtils {
         //actionList集合添加信息
         List<HashMap> actionEntitySet = new ArrayList<HashMap>();
 
-        actionEntitySet.add(actionEntitySet_detail("add", "新增"));
-        actionEntitySet.add(actionEntitySet_detail("query", "查询"));
-        actionEntitySet.add(actionEntitySet_detail("get", "详情"));
-        actionEntitySet.add(actionEntitySet_detail("update", "修改"));
-        actionEntitySet.add(actionEntitySet_detail("delete", "删除"));
+        actionEntitySet.add(actionEntitySetDetail("add", "新增"));
+        actionEntitySet.add(actionEntitySetDetail("query", "查询"));
+        actionEntitySet.add(actionEntitySetDetail("get", "详情"));
+        actionEntitySet.add(actionEntitySetDetail("update", "修改"));
+        actionEntitySet.add(actionEntitySetDetail("delete", "删除"));
         //模块
-        HashMap<String, Object> permissions = new HashMap<String, Object>();
+        HashMap<String, Object> permissions = new HashMap<String, Object>(20);
         permissions.put("roleId", "admin");
         permissions.put("permissionId", permissionId);
         permissions.put("permissionName", permissionName);
@@ -101,17 +110,19 @@ public class BackFormatUtils {
         return permissions;
     }
 
-    public static HashMap actionEntitySet_detail(String action, String describe) {
-        HashMap<String, Object> actionEntitySet_detail = new HashMap<String, Object>();
-        actionEntitySet_detail.put("action", action);
-        actionEntitySet_detail.put("describe", describe);
-        actionEntitySet_detail.put("defaultCheck", false);
-        return actionEntitySet_detail;
+    public static HashMap actionEntitySetDetail(String action, String describe) {
+        HashMap<String, Object> actionEntitySetDetail = new HashMap<String, Object>(20);
+        actionEntitySetDetail.put("action", action);
+        actionEntitySetDetail.put("describe", describe);
+        actionEntitySetDetail.put("defaultCheck", false);
+        return actionEntitySetDetail;
     }
 
-    //获取菜单js信息
+    /**
+     * 获取菜单js信息
+     */
     public static HashMap getNavDetail(Object result, Object message, Object code, Object headers) {
-        HashMap<String, Object> builder = new HashMap<String, Object>();
+        HashMap<String, Object> builder = new HashMap<String, Object>(50);
         builder.put("result", result);
         builder.put("message", message);
         builder.put("code", code);
