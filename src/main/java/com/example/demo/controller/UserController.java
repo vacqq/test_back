@@ -30,7 +30,7 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/api/UserLoginCheck", method = RequestMethod.POST)
     public HashMap userLoginCheck(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return userService.SelectUserNumByPassword(jsonString);
+        return userService.selectUserNumByPassword(jsonString);
     }
 
     /**
@@ -43,7 +43,7 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/api/UserDetailByLoginId", method = RequestMethod.POST)
     public HashMap userDetailByLoginId(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return userService.UserDetailByLoginId(jsonString);
+        return userService.userDetailByLoginId(jsonString);
     }
 
     /**
@@ -56,7 +56,7 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectUserDetailList", method = RequestMethod.POST)
     public List<HashMap> selectUserDetailList(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return userService.SelectUserDetailList(jsonString);
+        return userService.selectUserDetailList(jsonString);
     }
 
     /**
@@ -85,7 +85,7 @@ public class UserController {
             Object result = new SimpleHash(hashAlgorithmName, pwYz, salt, hashIterations);
             /*************************JM end*****************************/
             jsonString.put("pass_word", result.toString());
-            userService.InsertUserDetail(jsonString);
+            userService.insertUserDetail(jsonString);
             resultData = "1";
             resultMsg = "插入成功";
         } else {
@@ -110,7 +110,7 @@ public class UserController {
     public HashMap updateUserDetail(@RequestBody HashMap<String, String> jsonString) throws Exception {
         Integer resultData = 0;
         String resultMsg = "更新失败";
-        resultData = userService.UpdateUserDetail(jsonString);
+        resultData = userService.updateUserDetail(jsonString);
         if (resultData != 0) {
             resultMsg = "更新成功";
         }
@@ -134,7 +134,7 @@ public class UserController {
     public HashMap deleteUserDetail(@RequestBody HashMap<String, String> jsonString) throws Exception {
         Integer resultData = 0;
         String resultMsg = "删除失败";
-        resultData = userService.DeleteUserDetail(jsonString.get("id_all"));
+        resultData = userService.deleteUserDetail(jsonString.get("id_all"));
         if (resultData != 0) {
             resultMsg = "删除成功";
         }
@@ -167,7 +167,7 @@ public class UserController {
         jsonString.put("pass_word", result.toString());
         Integer resultData = 0;
         String resultMsg = "修改失败";
-        resultData = userService.UserUpdatePassword(jsonString);
+        resultData = userService.userUpdatePassword(jsonString);
         if (resultData != 0) {
             resultMsg = "修改成功";
         }

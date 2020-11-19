@@ -31,7 +31,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteIdNameBySiteType", method = RequestMethod.POST)
     public List<HashMap> selectSiteIdNameBySiteType(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        List<HashMap> hashMapList = selectSiteService.SelectSiteIdNameBySiteType(jsonString);
+        List<HashMap> hashMapList = selectSiteService.selectSiteIdNameBySiteType(jsonString);
         return hashMapList;
     }
 
@@ -45,7 +45,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectHeatMapDataList", method = RequestMethod.POST)
     public List<HashMap> selectHeatMapDataList(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        List<HashMap> hashMapList = selectSiteService.SelectHeatMapDataList(jsonString);
+        List<HashMap> hashMapList = selectSiteService.selectHeatMapDataList(jsonString);
         return hashMapList;
     }
 
@@ -59,7 +59,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteIdNameBySiteTypeId", method = RequestMethod.POST)
     public List<HashMap> selectSiteIdNameBySiteTypeId(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.SelectSiteIdNameBySiteTypeId(jsonString);
+        return selectSiteService.selectSiteIdNameBySiteTypeId(jsonString);
     }
 
     /**
@@ -72,7 +72,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectDictionariesByType", method = RequestMethod.POST)
     public List<HashMap> selectDictionariesByType(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.SelectDictionariesByType(jsonString);
+        return selectSiteService.selectDictionariesByType(jsonString);
     }
 
 
@@ -90,10 +90,10 @@ public class SelectSiteController {
         String placeId = jsonString.get("place_id");
         HashMap<String, Object> placeDetail = new HashMap<String, Object>(10);
         List<HashMap> placeDetailList = new ArrayList<HashMap>();
-        placeDetail.put("place_father_show", selectSiteService.SelectPlaceNameById(placeId));
+        placeDetail.put("place_father_show", selectSiteService.selectPlaceNameById(placeId));
 
-        List<HashMap> childrenX = selectSiteService.GetPlaceTreeListQuick(placeId);
-        List<HashMap> childrenDetailList = selectSiteService.GetPlaceTreeListInParentId(placeId);
+        List<HashMap> childrenX = selectSiteService.getPlaceTreeListQuick(placeId);
+        List<HashMap> childrenDetailList = selectSiteService.getPlaceTreeListInParentId(placeId);
 
         for (HashMap strList : childrenX) {
             HashMap<String, Object> children = new HashMap<String, Object>(10);
@@ -121,7 +121,7 @@ public class SelectSiteController {
     }
 
     public List<HashMap> getTreeList(String placeId) {
-        List<SysSiteEntity> sysSiteEntities = selectSiteService.GetPlaceTreeList(placeId);
+        List<SysSiteEntity> sysSiteEntities = selectSiteService.getPlaceTreeList(placeId);
         if (sysSiteEntities.size() == 0) {
             return null;
         }
@@ -137,7 +137,7 @@ public class SelectSiteController {
     }
 
     public List<HashMap> getTreeChildrenList(String placeId) {
-        List<SysSiteEntity> sysSiteEntities = selectSiteService.GetPlaceTreeList(placeId);
+        List<SysSiteEntity> sysSiteEntities = selectSiteService.getPlaceTreeList(placeId);
         if (sysSiteEntities.size() == 0) {
             return null;
         }
@@ -161,7 +161,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteDataById", method = RequestMethod.POST)
     public HashMap selectSiteDataById(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.SelectSiteDataById(jsonString.get("id"));
+        return selectSiteService.selectSiteDataById(jsonString.get("id"));
     }
 
     /**
@@ -174,7 +174,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectPlaceIdByType", method = RequestMethod.POST)
     public List<HashMap> selectPlaceIdByType(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.SelectPlaceIdByType(jsonString.get("type"));
+        return selectSiteService.selectPlaceIdByType(jsonString.get("type"));
     }
 
     /**
@@ -187,7 +187,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/SelectSiteList", method = RequestMethod.POST)
     public List<HashMap> selectSiteList(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.SelectSiteList(jsonString);
+        return selectSiteService.selectSiteList(jsonString);
     }
 
 
@@ -214,7 +214,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/getLastSiteDataBySiteid", method = RequestMethod.POST)
     public HashMap getLastSiteDataBySiteid(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        HashMap hashMap = selectSiteService.getLastSiteDataBySiteid(jsonString);
+        HashMap hashMap = selectSiteService.getLastSiteDataBySiteId(jsonString);
         return hashMap;
     }
 
@@ -235,7 +235,7 @@ public class SelectSiteController {
         String name = jsonString.get("name").toString();
         //对是否重复插入做出判断
         if (selectSiteService.countSiteNameIsHave(name) == 0) {
-            selectSiteService.InsertSiteData(jsonString);
+            selectSiteService.insertSiteData(jsonString);
             resultData = "1";
             resultMsg = "插入成功";
         } else {
@@ -260,7 +260,7 @@ public class SelectSiteController {
     public HashMap updateSiteData(@RequestBody HashMap<String, String> jsonString) throws Exception {
         Integer resultData = 0;
         String resultMsg = "更新失败";
-        resultData = selectSiteService.UpdateSiteData(jsonString);
+        resultData = selectSiteService.updateSiteData(jsonString);
         if (resultData != 0) {
             resultMsg = "更新成功";
         }
@@ -282,7 +282,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/DeleteSiteData", method = RequestMethod.POST)
     public Integer deleteSiteData(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.DeleteSiteData(jsonString.get("id_all"));
+        return selectSiteService.deleteSiteData(jsonString.get("id_all"));
     }
 
 
@@ -296,7 +296,7 @@ public class SelectSiteController {
     @CrossOrigin
     @RequestMapping(value = "/api/GetSiteDataByPlaceId", method = RequestMethod.POST)
     public List<HashMap> getSiteDataByPlaceId(@RequestBody HashMap<String, String> jsonString) throws Exception {
-        return selectSiteService.GetSiteDataByPlaceId(jsonString.get("site_type"), jsonString.get("place_id"));
+        return selectSiteService.getSiteDataByPlaceId(jsonString.get("site_type"), jsonString.get("place_id"));
     }
 
 
