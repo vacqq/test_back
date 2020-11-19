@@ -49,9 +49,9 @@ public interface AnalysisSiteRankMapper {
             ", CASE WHEN format(avg(b.${type}),${decimalNum}) < 60 THEN '#58C750' WHEN format(avg(b.${type}),${decimalNum}) >=60 and format(avg(b.${type}),${decimalNum}) < 70 \n" +
             "THEN '#E3CA55' ELSE '#7A3D3D' END as color " +
             "from (SELECT @row_num := 0) rank_num, sys_place as c  " +
-            "left join sys_site as a on c.id = a.placeId " +
+            "left join sys_site as a on c.id = a.place_id " +
             "LEFT JOIN et_data_new as b ON a.id=b.site_id " +
-            "where b.record_time>=#{startTime} and b.record_time<=#{endTime} and a.site_type = #{siteType} and a.is_del = 0 and c.id = #{placeId} and c.is_del = 0 group by site_name order by avg(b.${type}) ${order_type}) as data_value"})
+            "where b.record_time>=#{startTime} and b.record_time<=#{endTime} and a.site_type = #{siteType} and a.is_del = 0 and c.id = #{placeId} and c.is_del = 0 group by site_name order by avg(b.${type}) ${orderType}) as data_value"})
     List<HashMap> selectData(@Param("type") String type, @Param("orderType") String orderType, @Param("siteType") String siteType, @Param("decimalNum") String decimalNum, @Param("startTime") String startTime, @Param("endTime") String endTime, @Param("placeId") String placeId);
 
 

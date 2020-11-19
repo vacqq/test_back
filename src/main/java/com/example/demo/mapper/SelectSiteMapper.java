@@ -22,7 +22,7 @@ public interface SelectSiteMapper {
      * @param id 站点id
      * @return {{@link SysSiteEntity}}
      */
-    @Select({"select name from sys_site where is_del=0 and  id = #{Id}"})
+    @Select({"select name from sys_site where is_del=0 and  id = #{id}"})
     String selectNameById(@Param("id") String id);
 
     /**
@@ -31,7 +31,7 @@ public interface SelectSiteMapper {
      * @param id 站点id
      * @return {{@link HashMap}}
      */
-    @Select({"select * from sys_site where is_del=0 and  id = #{Id}"})
+    @Select({"select * from sys_site where is_del=0 and  id = #{id}"})
     HashMap selectSiteDataById(@Param("id") String id);
 
 
@@ -41,7 +41,7 @@ public interface SelectSiteMapper {
      * @param id 地区表id
      * @return {{@link SysSiteEntity}}
      */
-    @Select({"select name from sys_place where is_del=0 and id = #{Id}"})
+    @Select({"select name from sys_place where is_del=0 and id = #{id}"})
     String selectPlaceNameById(@Param("id") String id);
 
     /**
@@ -59,7 +59,7 @@ public interface SelectSiteMapper {
      * @param idRange 站点id范围
      * @return {{@link SysSiteEntity}}
      */
-    @Select({"select id ,name from sys_site where is_del=0 and find_in_set(id,#{IdRange})"})
+    @Select({"select id ,name from sys_site where is_del=0 and find_in_set(id,#{idRange})"})
     List<SysSiteEntity> selectNameInId(@Param("idRange") String idRange);
 
     /**

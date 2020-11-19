@@ -1,12 +1,12 @@
 server:
-  port: 8808
+  port: 8807
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/air_grid?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://8.131.89.169:3306/air_grid?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
     username: root
-    password: root
+    password: Lcz15533996340
 #    password: HuaQing@2103
 
 logging:
